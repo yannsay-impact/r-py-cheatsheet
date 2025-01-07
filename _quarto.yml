@@ -2,4 +2,5 @@ project:
   type: website
 format:
   html:
+    theme: lumen
     toc: true
