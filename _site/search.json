@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "r-py-cheatsheet",
     "section": "",
-    "text": "r_df_example &lt;- data.frame(id = letters[1:6],\nnumeric = 1:6)\nr_df_example\n\n  id numeric\n1  a       1\n2  b       2\n3  c       3\n4  d       4\n5  e       5\n6  f       6\n\n\n\n\n\n\nimport pandas as pd\npy_df_example = pd.DataFrame({'id': list('abcdef'),\n                 'numeric': list(range(1, 7))\n                })\n\npy_df_example\n\n  id  numeric\n0  a        1\n1  b        2\n2  c        3\n3  d        4\n4  e        5\n5  f        6\n\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(palmerpenguins)\n\nWarning: package 'palmerpenguins' was built under R version 4.4.1\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nr_df &lt;- penguins\n\n\n\n\n\nimport seaborn as sns\npy_df = sns.load_dataset('penguins')"
+    "text": "r_df_example &lt;- data.frame(id = letters[1:6],\nnumeric = 1:6)\nr_df_example\n\n  id numeric\n1  a       1\n2  b       2\n3  c       3\n4  d       4\n5  e       5\n6  f       6\n\n\n\n\n\n\nimport pandas as pd\npy_df_example = pd.DataFrame({'id': list('abcdef'),\n                 'numeric': list(range(1, 7))\n                })\n\npy_df_example\n\n  id  numeric\n0  a        1\n1  b        2\n2  c        3\n3  d        4\n4  e        5\n5  f        6\n\n\n\n\n\n\n\n\n\n\nlibrary(palmerpenguins)\nlibrary(dplyr)\n\nr_df &lt;- penguins\n\n\n\n\n\nimport seaborn as sns\npy_df = sns.load_dataset('penguins')\n\n\n\n\n\n\n\n\n\nr_df |&gt; \n  write.csv(\"penguins.csv\")\n\n\n\n\n\npy_df.to_csv('penguins.csv')\n\n\n\n\n\n\n\n\n\nr_df_csv &lt;- read.csv(\"penguins.csv\")\n\n\n\n\n\npy_df_csv = pd.read_csv(\"penguins.csv\")"
   },
   {
     "objectID": "index.html#create-a-dataframe",
@@ -18,7 +18,7 @@
     "href": "index.html#palmers",
     "title": "r-py-cheatsheet",
     "section": "",
-    "text": "library(palmerpenguins)\n\nWarning: package 'palmerpenguins' was built under R version 4.4.1\n\nlibrary(dplyr)\n\n\nAttaching package: 'dplyr'\n\n\nThe following objects are masked from 'package:stats':\n\n    filter, lag\n\n\nThe following objects are masked from 'package:base':\n\n    intersect, setdiff, setequal, union\n\nr_df &lt;- penguins\n\n\n\n\n\nimport seaborn as sns\npy_df = sns.load_dataset('penguins')"
+    "text": "library(palmerpenguins)\nlibrary(dplyr)\n\nr_df &lt;- penguins\n\n\n\n\n\nimport seaborn as sns\npy_df = sns.load_dataset('penguins')"
   },
   {
     "objectID": "index.html#columns-names",
@@ -96,5 +96,19 @@
     "title": "r-py-cheatsheet",
     "section": "summarise",
     "text": "summarise\n\nr_df |&gt; \n  group_by(species) |&gt; \n  summarise(bill_length_mm = mean(bill_length_mm, na.rm = T))\n\n# A tibble: 3 × 2\n  species   bill_length_mm\n  &lt;fct&gt;              &lt;dbl&gt;\n1 Adelie              38.8\n2 Chinstrap           48.8\n3 Gentoo              47.5\n\n\n\npy_df.groupby('species')['bill_length_mm'].mean().reset_index()\n\n     species  bill_length_mm\n0     Adelie       38.791391\n1  Chinstrap       48.833824\n2     Gentoo       47.504878\n\n\n# # Mean dep_delay and arr_delay for each season\n# dadel_season = flights.groupby('season')['dep_delay', 'arr_delay'].mean().reset_index()\n# print(dadel_season)\n# \n# # Mean and std delays by origin\n# del_ori = flights.groupby('origin')['total_delay', 'dep_delay', 'arr_delay'].agg(['mean', 'std'])\n# print(del_ori)"
+  },
+  {
+    "objectID": "index.html#write-csvxlsx",
+    "href": "index.html#write-csvxlsx",
+    "title": "r-py-cheatsheet",
+    "section": "",
+    "text": "r_df |&gt; \n  write.csv(\"penguins.csv\")\n\n\n\n\n\npy_df.to_csv('penguins.csv')"
+  },
+  {
+    "objectID": "index.html#read-csvxlsx",
+    "href": "index.html#read-csvxlsx",
+    "title": "r-py-cheatsheet",
+    "section": "",
+    "text": "r_df_csv &lt;- read.csv(\"penguins.csv\")\n\n\n\n\n\npy_df_csv = pd.read_csv(\"penguins.csv\")"
   }
 ]

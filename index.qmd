@@ -5,7 +5,7 @@ execute:
   freeze: auto
 ---
 
-# Data ingestion
+# Reading and writing data
 
 ## Create a dataframe
 ::: {.columns}
@@ -33,15 +33,17 @@ py_df_example
 
 :::
 
-## read csv/xlsx
-
 ## palmers 
 ::: {.columns}
 
 ::: {.column width="45%"}
 ```{r}
+#| warning: false 
+#| message: false
+
 library(palmerpenguins)
 library(dplyr)
+
 r_df <- penguins
 
 ```
@@ -58,6 +60,40 @@ py_df = sns.load_dataset('penguins')
 
 :::
 
+## write csv/xlsx
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df |> 
+  write.csv("penguins.csv")
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df.to_csv('penguins.csv')
+```
+:::
+
+:::
+
+## read csv/xlsx
+::: {.columns}
+::: {.column width="45%"}
+```{r}
+r_df_csv <- read.csv("penguins.csv")
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df_csv =	pd.read_csv("penguins.csv")
+```
+:::
+:::
 
 # Data Exploration
 
@@ -339,7 +375,7 @@ py_df["bill_length_mm"].notna().sum()
 ```
 
 
-# File exploration
+# Folders and files management
 
 ```{r}
 list.files()	
