@@ -239,6 +239,25 @@ py_df.info()
 
 # Data manipulation
 
+## copy of dataframe
+
+How to create 2 independent dataframes. In Python, if you `another_df = original_df`, each modification of `another_df` will be reflected in `original_df`. 
+
+::: {.columns}
+::: {.column width="45%"}
+```{r}
+another_r_df <- r_df
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+another_py_df = py_df.copy()
+```
+:::
+:::
+
 ## filter
 ::: {.columns}
 
@@ -299,7 +318,9 @@ py_df.filter("species")
 
 
 ## filter & select
+::: {.columns}
 
+::: {.column width="45%"}
 ```{r}
 r_df |> 
   filter(species == "Adelie") |> 
@@ -310,20 +331,37 @@ r_df |>
 r_df[r_df$species == "Adelie", "bill_length_mm"]
 ```
 
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
 ```{python}
 py_df.loc[py_df["species"] == "Adelie", "bill_length_mm"] 
 
 ```
 
+:::
+:::
 
 ## mutate
 
 ## summarise
+::: {.columns}
+
+::: {.column width="45%"}
 ```{r}
 r_df |> 
   group_by(species) |> 
   summarise(bill_length_mm = mean(bill_length_mm, na.rm = T))
 ```
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
 ```{python}
 py_df.groupby('species')['bill_length_mm'].mean().reset_index()
 
@@ -337,8 +375,69 @@ py_df.groupby('species')['bill_length_mm'].mean().reset_index()
 
 ```
 
+:::
+:::
 
+## rename
 
+::: {.columns}
+::: {.column width="45%"}
+```{r}
+r_df |>
+  rename(Species = species,
+         Island = island)
+```
+```{r}
+rename_r_df <- r_df[,c("species", "island")]
+names(rename_r_df) <- c("Species", "Island")
+names(rename_r_df)
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+py_df_rename1 = py_df.copy()
+py_df_rename1.rename(columns={'species': 'Species', 'island': 'Island'}, inplace=True)
+py_df_rename1
+```
+```{python}
+py_df_rename2 = py_df[["species","island"]].copy()
+py_df_rename2.columns = ["Species", "Island"]
+py_df_rename2.columns
+```
+:::
+:::
+
+## arrange
+
+::: {.columns}
+::: {.column width="45%"}
+```{r}
+r_df |> 
+  arrange(species) |> 
+  head()
+```
+```{r}
+r_df |> 
+  arrange(desc(species)) |> 
+  head()
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df.sort_values(by = "species").head()
+```
+```{python}
+py_df.sort_values(by = "species", ascending = False).head()
+```
+:::
+:::
 
 # control flows and loops
 
@@ -348,6 +447,9 @@ py_df.groupby('species')['bill_length_mm'].mean().reset_index()
 
 # logics
 
+## Missing value
+::: {.columns}
+::: {.column width="45%"}
 ```{r}
 is.na(r_df$bill_length_mm)
 ```
@@ -359,30 +461,41 @@ sum(is.na(r_df$bill_length_mm) )
 ```{r}
 sum(!is.na(r_df$bill_length_mm) )
 ```
-
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
 ```{python}
 py_df["bill_length_mm"].isnull()
 ```
-
 
 ```{python}
 py_df["bill_length_mm"].isnull().sum()
 
 ```
+
 ```{python}
 py_df["bill_length_mm"].notna().sum()
 
 ```
-
+:::
+:::
 
 # Folders and files management
 
+::: {.columns}
+::: {.column width="45%"}
 ```{r}
 list.files()	
 ```
-
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
 ```{python}
 import os
 os.listdir()
 
 ```
+:::
+:::
