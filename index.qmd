@@ -1,0 +1,352 @@
+---
+title: "r-py-cheatsheet"
+engine: knitr
+execute: 
+  freeze: auto
+---
+
+# Data ingestion
+
+## Create a dataframe
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df_example <- data.frame(id = letters[1:6],
+numeric = 1:6)
+r_df_example
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+import pandas as pd
+py_df_example = pd.DataFrame({'id': list('abcdef'),
+                 'numeric': list(range(1, 7))
+                })
+
+py_df_example
+```
+:::
+
+:::
+
+## read csv/xlsx
+
+## palmers 
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+library(palmerpenguins)
+library(dplyr)
+r_df <- penguins
+
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+import seaborn as sns
+py_df = sns.load_dataset('penguins')
+
+```
+:::
+
+:::
+
+
+# Data Exploration
+
+## Columns names
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+names(r_df)
+```
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+
+py_df.columns
+```
+:::
+
+:::
+
+## dimensions
+
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+dim(r_df)
+```
+```{r}
+nrow(r_df)
+```
+```{r}
+ncol(r_df)
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+
+py_df.shape
+```
+```{python}
+
+py_df.shape[0]
+```
+```{python}
+
+py_df.shape[1]
+```
+:::
+
+:::
+
+## head
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df |> head()
+```
+
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df.head()
+```
+
+:::
+:::
+## table | tally
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df$species |>  table()
+```
+```{r}
+r_df |>  group_by(species) |>  tally()
+```
+
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df['species'].value_counts()
+
+```
+
+:::
+:::
+## summary
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+
+```
+
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+
+```
+
+:::
+:::
+
+## structure / info
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df |> str()
+```
+
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+```{python}
+py_df.info()
+```
+
+:::
+:::
+
+
+
+# Data manipulation
+
+## filter
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+penguins |> 
+  filter(species == "Adelie")
+```
+```{r}
+r_df[r_df$species == "Adelie",]
+```
+
+:::
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+py_df[py_df["species"] == "Adelie"]
+
+```
+:::
+
+:::
+
+## select
+::: {.columns}
+
+::: {.column width="45%"}
+```{r}
+r_df$species
+```
+
+```{r}
+r_df[["species"]]
+```
+
+:::
+
+::: {.column width="10%"}
+:::
+::: {.column width="45%"}
+
+```{python}
+py_df.species
+```
+
+
+```{python}
+py_df["species"]
+```
+```{python}
+py_df.filter("species")
+```
+
+:::
+:::
+
+
+## filter & select
+
+```{r}
+r_df |> 
+  filter(species == "Adelie") |> 
+  select("bill_length_mm")
+```
+
+```{r}
+r_df[r_df$species == "Adelie", "bill_length_mm"]
+```
+
+```{python}
+py_df.loc[py_df["species"] == "Adelie", "bill_length_mm"] 
+
+```
+
+
+## mutate
+
+## summarise
+```{r}
+r_df |> 
+  group_by(species) |> 
+  summarise(bill_length_mm = mean(bill_length_mm, na.rm = T))
+```
+```{python}
+py_df.groupby('species')['bill_length_mm'].mean().reset_index()
+
+# # Mean dep_delay and arr_delay for each season
+# dadel_season = flights.groupby('season')['dep_delay', 'arr_delay'].mean().reset_index()
+# print(dadel_season)
+# 
+# # Mean and std delays by origin
+# del_ori = flights.groupby('origin')['total_delay', 'dep_delay', 'arr_delay'].agg(['mean', 'std'])
+# print(del_ori)
+
+```
+
+
+
+
+# control flows and loops
+
+# function
+
+# anonymous functions / lambda
+
+# logics
+
+```{r}
+is.na(r_df$bill_length_mm)
+```
+
+```{r}
+sum(is.na(r_df$bill_length_mm) )
+```
+
+```{r}
+sum(!is.na(r_df$bill_length_mm) )
+```
+
+```{python}
+py_df["bill_length_mm"].isnull()
+```
+
+
+```{python}
+py_df["bill_length_mm"].isnull().sum()
+
+```
+```{python}
+py_df["bill_length_mm"].notna().sum()
+
+```
+
+
+# File exploration
+
+```{r}
+list.files()	
+```
+
+```{python}
+import os
+os.listdir()
+
+```
